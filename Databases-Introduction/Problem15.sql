@@ -1,0 +1,73 @@
+-- Problem 15
+CREATE DATABASE Hotel;
+
+CREATE TABLE Employees(
+	Id INT PRIMARY KEY IDENTITY,
+	FirstName VARCHAR(50) NOT NULL,
+	LastName VARCHAR(50) NOT NULL,
+	Title VARCHAR(50) NOT NULL,
+	Notes VARCHAR(255)
+);
+
+CREATE TABLE Customers(
+	Id INT PRIMARY KEY IDENTITY,
+	FirstName VARCHAR(50) NOT NULL,
+	LastName VARCHAR(50) NOT NULL,
+	PhoneNumber VARCHAR(10) NOT NULL,
+	EmergencyName VARCHAR(100) NOT NULL,
+	EmergencyNumber VARCHAR(10) NOT NULL,
+	Notes VARCHAR(255)
+);
+
+CREATE TABLE RoomStatus(
+	Id INT PRIMARY KEY IDENTITY,
+	RoomStatus BIT,
+	Notes VARCHAR(255)
+);
+
+CREATE TABLE RoomTypes(
+	Id INT PRIMARY KEY IDENTITY,
+	RoomType VARCHAR(50) NOT NULL,
+	Notes VARCHAR(255)
+);
+
+CREATE TABLE BedTypes(
+	Id INT PRIMARY KEY IDENTITY,
+	BedTypes VARCHAR(50) NOT NULL,
+	Notes VARCHAR(255)
+);
+
+CREATE TABLE Rooms(
+	RoomNumber INT PRIMARY KEY IDENTITY,
+	RoomType INT FOREIGN KEY REFERENCES RoomTypes(Id),
+	BedType INT FOREIGN KEY REFERENCES BedTypes(Id),
+	Rate INT,
+	RoomStatus INT FOREIGN KEY REFERENCES RoomStatus(Id),
+	Notes VARCHAR(255)
+);
+
+CREATE TABLE Payments(
+	Id INT PRIMARY KEY IDENTITY,
+	EmployeeId INT FOREIGN KEY REFERENCES Employees(Id),
+	PaymentDate DATE,
+	AccountNumber VARCHAR(50),
+	FirstDateOccupied DATE,
+	LastDateOccupied DATE,
+	TotalDays INT,
+	AmountCharged DECIMAL,
+	TaxRate DECIMAL,
+	TaxAmount DECIMAL,
+	PaymentTotal DECIMAL,
+	Notes VARCHAR(255)
+);
+
+CREATE TABLE Occupancies(
+	Id INT PRIMARY KEY IDENTITY,
+	EmployeeId INT FOREIGN KEY REFERENCES Employees(Id),
+	DateOccupied DATE,
+	AccountNumber VARCHAR(50),
+	RoomNumber INT FOREIGN KEY REFERENCES Rooms(RoomNumber),
+	RateApplied DECIMAL,
+	PhoneCharge DECIMAL,
+	Notes VARCHAR(255),
+);
