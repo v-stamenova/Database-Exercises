@@ -1,0 +1,59 @@
+-- Problem 14
+CREATE DATABASE CarRental;
+
+CREATE TABLE Categories(
+	Id INT PRIMARY KEY IDENTITY,
+	CategoryName VARCHAR(50) NOT NULL,
+	DailyRate INT,
+	WeeklyRate INT,
+	MonthlyRate INT,
+	WeekendRate INT
+);
+
+CREATE TABLE Cars(
+	Id INT PRIMARY KEY IDENTITY,
+	PlateNumber VARCHAR(50) NOT NULL,
+	Manufacturer VARCHAR(50) NOT NULL,
+	Model VARCHAR(50),
+	CategoryId INT FOREIGN KEY REFERENCES Categories(Id),
+	Doors INT NOT NULL, 
+	Picture VARBINARY(MAX),
+	Condition VARCHAR(50),
+	Available BIT
+);
+
+CREATE TABLE Employees(
+	Id INT PRIMARY KEY IDENTITY,
+	FirstName VARCHAR(50) NOT NULL,
+	LastName VARCHAR(50) NOT NULL,
+	Title VARCHAR(50) NOT NULL,
+	Notes VARCHAR(255)
+);
+
+CREATE TABLE Customers(
+	Id INT PRIMARY KEY IDENTITY,
+	DriverLicenceNumber VARCHAR(50),
+	FullName VARCHAR(50) NOT NULL,
+	Address VARCHAR(50) NOT NULL,
+	City VARCHAR(50) NOT NULL,
+	ZIPCode VARCHAR(50) NOT NULL,
+	Notes VARCHAR(255),
+);
+
+CREATE TABLE RentalOrders(
+	Id INT PRIMARY KEY IDENTITY,
+	EmployeeId INT FOREIGN KEY REFERENCES Employees(Id),
+	CustomerId INT FOREIGN KEY REFERENCES Customers(Id),
+	CarId INT FOREIGN KEY REFERENCES Cars(Id),
+	TankLevel INT NOT NULL,
+	KilometrageStart INT NOT NULL,
+	KilometrageEnd INT NOT NULL,
+	TotalKilometrage INT NOT NULL,
+	StartDate DATE NOT NULL,
+	EndDate DATE NOT NULL,
+	TotalDays INT NOT NULL,
+	RateApplied DECIMAL,
+	TaxRate DECIMAL,
+	OrderStatus VARCHAR(50),
+	Notes VARCHAR(255)
+);
